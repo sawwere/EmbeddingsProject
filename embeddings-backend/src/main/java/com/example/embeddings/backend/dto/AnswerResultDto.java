@@ -1,6 +1,11 @@
 package com.example.embeddings.backend.dto;
 
-import lombok.*;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @Getter
@@ -11,7 +16,17 @@ public class AnswerResultDto {
     private Long questionId;
     private String userAnswer;
     private String correctAnswer;
-    private boolean isCorrect;
-    private double similarityScore;
-    private String distanceMethod;
+    private List<DistanceResult> distanceResult;
+
+    public static class DistanceResult {
+        public boolean isCorrect;
+        public double similarityScore;
+        public String distanceMethod;
+
+        public DistanceResult(boolean isCorrect, double similarityScore, String distanceMethod) {
+            this.isCorrect = isCorrect;
+            this.similarityScore = similarityScore;
+            this.distanceMethod = distanceMethod;
+        }
+    }
 }

@@ -26,6 +26,12 @@ spring:
 
 frontend:
   url: http://localhost:5173
+quiz:
+  similarity:
+    threshold: ${QUIZ_SIMILARITY_THRESHOLD:0.8}
+ollama:
+  url: ${OLLAMA_URL:http://localhost:11434}
+  embedModel: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
 
 logging:
   file:
