@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат проверки</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Inter", "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #f8faff 0%, #eef3ff 100%);
+            color: #2b2b2b;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-card {
+            background: #fff;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 3rem;
+            max-width: 640px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .status {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status.correct {
+            color: #28a745;
+        }
+
+        .status.incorrect {
+            color: #dc3545;
+        }
+
+        .answers {
+            background-color: #f9fafc;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .answers p {
+            margin-bottom: .5rem;
+        }
+
+        .answers span {
+            font-weight: 600;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        th {
+            background-color: #f1f3f8;
+            padding: 12px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eceef3;
+        }
+
+        tr.correct-row td {
+            background-color: #e7f9ed;
+        }
+
+        tr.incorrect-row td {
+            background-color: #fdeaea;
+        }
+
+        .badge {
+            font-size: .9rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.5rem;
+        }
+
+        .badge.correct {
+            background-color: #28a745;
+        }
+
+        .badge.incorrect {
+            background-color: #dc3545;
+        }
+
+        .similarity-bar {
+            height: 8px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .similarity-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+        }
+
+        .back-btn {
+            margin-top: 2rem;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: background-color .2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="result-card shadow-lg">
+    <h1 class="mb-3">Результат проверки</h1>
+
+    <div th:if="${result.isCorrect}" class="status correct">
+        ✅ Отлично! Ваш ответ правильный
+    </div>
+    <div th:if="${!result.isCorrect}" class="status incorrect">
+        ❌ Увы, ответ неверный
+    </div>
+
+    <div class="answers">
+        <p>💬 <strong>Ваш ответ:</strong> <span th:text="${result.userAnswer}">пример</span></p>
+        <p>✅ <strong>Правильный ответ:</strong> <span th:text="${result.correctAnswer}">пример</span></p>
+    </div>
+
+    <h4 class="mt-4 mb-2">📊 Оценка по метрикам:</h4>
+
+    <table class="table table-borderless text-start align-middle">
+        <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Схожесть</th>
+            <th>Результат</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${result.distanceResult}"
+            th:classappend="${d.isCorrect} ? 'correct-row' : 'incorrect-row'">
+            <td th:text="${d.distanceMethod}"></td>
+            <td>
+                <span th:text="${#numbers.formatDecimal(d.similarityScore * 100, 1, 2)} + '%'"></span>
+                <div class="similarity-bar">
+                    <div class="similarity-bar-inner"
+                         th:style="'width:' + ${d.similarityScore * 100} + '%'"></div>
+                </div>
+            </td>
+            <td>
+                <span th:if="${d.isCorrect}" class="badge correct">Верно</span>
+                <span th:if="${!d.isCorrect}" class="badge incorrect">Неверно</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/quiz-ui" class="back-btn d-inline-block">← Вернуться к списку викторин</a>
+</div>
+
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

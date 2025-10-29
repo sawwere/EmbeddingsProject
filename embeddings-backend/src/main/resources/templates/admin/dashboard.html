@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru"
+      th:replace="~{_layout :: layout('Викторины', ~{::section})}">
+<body>
+<section>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="fw-semibold m-0">🎯 Викторины</h2>
+        <a href="/admin/quizzes/new" class="btn btn-primary fw-semibold">+ Новая викторина</a>
+    </div>
+
+    <div th:if="${quizzes.isEmpty()}" class="alert alert-info text-center rounded-4 py-4">
+        Пока нет викторин — создайте первую 💡
+    </div>
+
+    <div class="row g-4" th:if="${!quizzes.isEmpty()}">
+        <div class="col-md-6 col-lg-4" th:each="q : ${quizzes}">
+            <div class="card card-soft h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title mb-2" th:text="${q.title}">Название</h5>
+                    <p class="text-muted mb-3">Вопросов: <span th:text="${#lists.size(q.questions)}">0</span></p>
+
+                    <div class="mt-auto d-flex flex-wrap gap-2">
+                        <a th:href="@{'/admin/quizzes/' + ${q.id}}" class="btn btn-outline-secondary btn-sm">Открыть</a>
+                        <a th:href="@{'/admin/quizzes/' + ${q.id} + '/edit'}" class="btn btn-outline-primary btn-sm">Редактировать</a>
+                        <form th:action="@{'/admin/quizzes/' + ${q.id} + '/delete'}" method="post"
+                              onsubmit="return confirm('Удалить викторину?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

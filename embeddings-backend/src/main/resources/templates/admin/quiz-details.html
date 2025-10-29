@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru"
+      th:replace="~{_layout :: layout('Детали викторины', ~{::section})}">
+<body>
+<section>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 th:text="${quiz.title}">Викторина</h2>
+        <div class="d-flex gap-2">
+            <a th:href="@{'/admin/quizzes/' + ${quiz.id} + '/edit'}" class="btn btn-primary">Редактировать</a>
+            <form th:action="@{'/admin/quizzes/' + ${quiz.id} + '/warmup'}" method="post">
+                <button type="submit" class="btn btn-outline-secondary">Прогреть эмбеддинги</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card card-soft">
+        <div class="card-body">
+            <h5 class="mb-3">🧩 Вопросы</h5>
+            <ol class="mb-0 ps-3">
+                <li th:each="q : ${quiz.questions}" class="mb-3">
+                    <div><strong th:text="${q.text}">Текст вопроса</strong></div>
+                    <div class="text-muted">Ответ: <span th:text="${q.correctAnswer}">Ответ</span></div>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/admin" class="btn btn-outline-secondary">← Назад к списку</a>
+    </div>
+</section>
+</body>
+</html>

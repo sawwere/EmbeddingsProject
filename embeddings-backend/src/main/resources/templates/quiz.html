@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${quiz.title}"></title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h2 th:text="${quiz.title}" class="fw-semibold mb-4"></h2>
+
+    <div th:each="q : ${quiz.questions}" class="card card-soft mb-4">
+        <div class="card-body">
+            <h5 class="mb-3" th:text="${q.text}"></h5>
+            <form th:action="@{'/quiz-ui/' + ${q.id} + '/submit'}" method="post" class="d-flex gap-2">
+                <input type="text" name="answer" class="form-control" placeholder="Введите ваш ответ..." required>
+                <button type="submit" class="btn btn-primary px-4">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

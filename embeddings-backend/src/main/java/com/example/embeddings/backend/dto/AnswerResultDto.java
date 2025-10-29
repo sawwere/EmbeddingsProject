@@ -16,17 +16,17 @@ public class AnswerResultDto {
     private Long questionId;
     private String userAnswer;
     private String correctAnswer;
+    private boolean isCorrect;
+    private double similarity;
     private List<DistanceResult> distanceResult;
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class DistanceResult {
-        public boolean isCorrect;
-        public double similarityScore;
-        public String distanceMethod;
-
-        public DistanceResult(boolean isCorrect, double similarityScore, String distanceMethod) {
-            this.isCorrect = isCorrect;
-            this.similarityScore = similarityScore;
-            this.distanceMethod = distanceMethod;
-        }
+        private boolean isCorrect;
+        private double similarityScore;
+        private String distanceMethod;
     }
 }

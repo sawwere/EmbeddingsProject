@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru"
+      th:replace="~{_layout :: layout(${title}, ~{::section})}">
+<body>
+<section>
+    <h2 class="fw-semibold mb-4" th:text="${title}">Создание викторины</h2>
+
+    <form th:action="${quizDto.id} == null ? '/admin/quizzes' : '/admin/quizzes/' + ${quizDto.id}"
+          method="post" th:object="${quizDto}">
+
+        <!-- Основная информация -->
+        <div class="card card-soft mb-4">
+            <div class="card-body">
+                <label class="form-label fw-semibold">Название викторины</label>
+                <input type="text" class="form-control" th:field="*{title}" placeholder="Например: Столицы мира" required>
+                <div class="text-danger small" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+        </div>
+
+        <!-- Вопросы -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold m-0">🧩 Вопросы</h5>
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addQuestion()">+ Добавить вопрос</button>
+        </div>
+
+        <div id="questions">
+            <div th:each="q, iter : *{questions}" class="card card-soft mb-3">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Текст вопроса</label>
+                            <input type="text" class="form-control"
+                                   th:field="*{questions[__${iter.index}__].questionText}"
+                                   placeholder="Введите вопрос..." required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Правильный ответ</label>
+                            <input type="text" class="form-control"
+                                   th:field="*{questions[__${iter.index}__].correctAnswer}"
+                                   placeholder="Введите правильный ответ..." required>
+                        </div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.card').remove()">Удалить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="d-flex gap-2 mt-4">
+            <a href="/admin" class="btn btn-secondary">← Назад</a>
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+        </div>
+    </form>
+
+    <!-- Шаблон нового вопроса -->
+    <template id="question-template">
+        <div class="card card-soft mb-3">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label">Текст вопроса</label>
+                        <input type="text" class="form-control" name="questions[IDX].questionText" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Правильный ответ</label>
+                        <input type="text" class="form-control" name="questions[IDX].correctAnswer" required>
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.card').remove()">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        function addQuestion() {
+            const container = document.getElementById('questions');
+            const template = document.getElementById('question-template').content.cloneNode(true);
+            const index = container.querySelectorAll('.card').length;
+            template.querySelectorAll('input').forEach(inp => {
+                inp.name = inp.name.replace('IDX', index);
+            });
+            container.appendChild(template);
+        }
+    </script>
+</section>
+</body>
+</html>

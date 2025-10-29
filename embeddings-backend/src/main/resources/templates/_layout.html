@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru"
+      th:fragment="layout(pageTitle, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle} ?: 'Админка викторин'">Админка викторин</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+
+    <!-- Глобальные стили -->
+    <style>
+        body {
+            background-color: #f6f8fa;
+            font-family: 'Inter', sans-serif;
+            color: #212529;
+        }
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            color: #3a57e8 !important;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .container-main {
+            max-width: 1100px;
+            margin: 2rem auto 3rem auto;
+        }
+
+        .card-soft {
+            border: none;
+            border-radius: 1rem;
+            background: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card-soft:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .btn-primary {
+            background-color: #3a57e8;
+            border-color: #3a57e8;
+        }
+
+        .btn-primary:hover {
+            background-color: #2c43b5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem 0 2rem;
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/admin">🧩 Викторины</a>
+        <div class="ms-auto">
+            <a class="btn btn-sm btn-outline-primary" href="/quiz-ui" target="_blank">UI пользователя</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container container-main" th:insert="${content}">
+</main>
+
+<footer>© 2025 Мехмат</footer>
+
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

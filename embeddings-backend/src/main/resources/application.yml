@@ -32,6 +32,7 @@ quiz:
 ollama:
   url: ${OLLAMA_URL:http://localhost:11434}
   embedModel: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+  model: nomic-embed-text
 
 logging:
   file:

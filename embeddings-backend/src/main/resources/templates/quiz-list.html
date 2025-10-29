@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список викторин</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-5 text-center">
+    <h1 class="mb-4 fw-semibold">🧠 Доступные викторины</h1>
+    <div class="list-group shadow-sm mx-auto" style="max-width: 480px;">
+        <a th:each="quiz : ${quizzes}"
+           th:href="@{'/quiz-ui/' + ${quiz.id}}"
+           th:text="${quiz.title}"
+           class="list-group-item list-group-item-action list-group-item-light fw-medium">
+        </a>
+    </div>
+</div>
+</body>
+</html>
